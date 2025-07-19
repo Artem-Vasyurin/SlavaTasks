@@ -4,23 +4,28 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
 
-        HashMap myHash = new HashMap<>(16);
-        for (int i = 0; i < myHash.size; i++) {
-            myHash.put(i, "Значка" + i);
-        }
-        for (int i = 0; i < myHash.size; i++) {
-            System.out.println(myHash.get(i));
-        }
+        HashMap myHash = new HashMap(4);
 
-        java.util.HashMap hashMap = new java.util.HashMap(15);
+        myHash.put("A", 1);
+        myHash.put("B", 2);
+        System.out.println(myHash.getSize());
+        myHash.put("C", 3);
+        myHash.put("D", 4);
+        System.out.println(myHash.get("D"));
+        System.out.println(myHash.getSize());
+        myHash.remove("D");
+        myHash.remove("A");
+        myHash.put("D", 4);
+        myHash.put("й", 4);
+        myHash.put("5", 452);
+        myHash.put("553", 4);
+        System.out.println(myHash.getSize());
+        System.out.println(myHash.get("5"));
 
-        IntStream.rangeClosed(0, 15).forEach(i -> {
-            hashMap.put(i, "Значение" + i);
-        });
 
-        hashMap.forEach((k, v) -> {
-            System.out.println(k + "->" + v);
-        });
+
+
+
 
 
     }
