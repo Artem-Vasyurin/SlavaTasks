@@ -92,7 +92,6 @@ public class HashMap<Key, Value> {
             if (x.key.equals(key)) {
                 arrlist[hash % size].remove(x);
                 break;
-
             }
         }
     }
