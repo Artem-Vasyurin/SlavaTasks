@@ -1,4 +1,4 @@
-package main.java.vasyurin;
+package vasyurin;
 
 import java.io.*;
 import java.net.ServerSocket;

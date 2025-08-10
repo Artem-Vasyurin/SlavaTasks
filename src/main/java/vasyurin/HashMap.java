@@ -1,4 +1,4 @@
-package main.java.vasyurin;
+package vasyurin;
 
 import java.util.ArrayList;
 
