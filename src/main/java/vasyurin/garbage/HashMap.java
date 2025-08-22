@@ -1,4 +1,4 @@
-package vasyurin;
+package vasyurin.garbage;
 
 import java.util.ArrayList;
 
@@ -68,21 +68,14 @@ public class HashMap<Key, Value> {
     }
 
     public Value get(Key key) {
-        try {
-            int hash = key.hashCode();
-            Value val = null;
-            for (Node<Key, Value> x : arrlist[hash % size]) {
-                if (x.key.equals(key)) {
-                    val = x.value;
-                }
+        int hash = key.hashCode();
+        Value val = null;
+        for (Node<Key, Value> x : arrlist[hash % size]) {
+            if (x.key.equals(key)) {
+                val = x.value;
             }
-            return val;
-
-        } catch (NullPointerException e) {
-            System.out.println("Значение не найденно " + e);
-            throw e;
         }
-
+        return val;
     }
 
     public void remove(Key key) {
