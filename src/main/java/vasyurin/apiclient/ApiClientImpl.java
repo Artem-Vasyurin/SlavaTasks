@@ -2,7 +2,7 @@ package vasyurin.apiclient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-import vasyurin.TimeDto;
+import vasyurin.dto.TimeDto;
 
 import java.io.IOException;
 import java.net.URI;

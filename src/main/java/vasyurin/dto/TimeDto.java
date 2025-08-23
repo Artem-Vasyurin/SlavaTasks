@@ -1,7 +1,6 @@
-package vasyurin;
+package vasyurin.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record TimeDto(String $id,

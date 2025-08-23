@@ -1,15 +1,11 @@
-package vasyurin;
+package vasyurin.configuration;
 
-
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import vasyurin.apiclient.ApiClientImpl;
 
 @Configuration
-@ComponentScan
+@ComponentScan("vasyurin")
 @EnableScheduling
 public class CommonConfiguration {
-
 }

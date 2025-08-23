@@ -1,15 +1,13 @@
-package vasyurin;
+package vasyurin.persistence;
 
-import vasyurin.apiclient.ApiClient;
+import vasyurin.dto.TimeDto;
 
 import java.sql.*;
 
 public class JDBC {
-
     String url = "jdbc:postgresql://localhost:5432/TimeDataBase";
     String name = "postgres";
     String password = "postgres";
-
 
     public void WriteTimeDto(TimeDto timeDto) {
 

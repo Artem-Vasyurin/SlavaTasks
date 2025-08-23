@@ -1,12 +1,13 @@
-package vasyurin;
+package vasyurin.repositories;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import vasyurin.dto.TimeDto;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class TimeRepository {
@@ -16,19 +17,18 @@ public class TimeRepository {
 
     public synchronized void put(String timeString, TimeDto timeDto) {
         hashMap.put(timeString, timeDto);
-        JDBC jdbc = new JDBC();
-        jdbc.WriteTimeDto(timeDto);
-
     }
 
-    public synchronized TimeDto getClosest(Long utcMills) {
+    public synchronized Optional<TimeDto> getClosest(Long utcMills) {
+        TimeDto result;
         if (hashMap.isEmpty()) {
-            return null;
+            result = null;
         } else if (hashMap.size() == 1) {
-            return hashMap.values().iterator().next();
+            result = hashMap.values().iterator().next();
         } else {
-            return findClosest(utcMills);
+            result = findClosest(utcMills);
         }
+        return Optional.ofNullable(result);
     }
 
     private TimeDto findClosest(Long utcMills) {
