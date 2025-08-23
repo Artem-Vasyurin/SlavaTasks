@@ -1,10 +1,15 @@
 package vasyurin;
 
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import vasyurin.apiclient.ApiClient;
 
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+@Service
 public class TimeRepositoryUpdater {
     private final Timer timer = new Timer();
 
@@ -18,6 +23,7 @@ public class TimeRepositoryUpdater {
         this.apiClient = apiClient;
     }
 
+    @Scheduled(fixedRate = 5000)
     public synchronized void start() {
         if (isStarted) return;
 
@@ -33,7 +39,11 @@ public class TimeRepositoryUpdater {
     }
 
     private void TakeTimeJson() {
+
+
         TimeDto timeDto = apiClient.getTimeDto();
         timeRepository.put(timeDto.currentDateTime(), timeDto);
+
+
     }
 }

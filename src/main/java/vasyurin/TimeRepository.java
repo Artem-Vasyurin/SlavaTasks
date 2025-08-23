@@ -1,10 +1,14 @@
 package vasyurin;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+@Service
 public class TimeRepository {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmXXX");
 
@@ -12,6 +16,9 @@ public class TimeRepository {
 
     public synchronized void put(String timeString, TimeDto timeDto) {
         hashMap.put(timeString, timeDto);
+        JDBC jdbc = new JDBC();
+        jdbc.WriteTimeDto(timeDto);
+
     }
 
     public synchronized TimeDto getClosest(Long utcMills) {

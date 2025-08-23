@@ -1,8 +1,12 @@
 package vasyurin;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import vasyurin.apiclient.ApiClient;
 import vasyurin.apiclient.ApiClientImpl;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.OffsetTime;
 import java.util.Arrays;
@@ -11,24 +15,16 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println(p());
-        if(true)return;
-        TimeRepository timeRepository = new TimeRepository();
-        ApiClient apiClient = new ApiClientImpl();
-        TimeRepositoryUpdater timeRepositoryUpdater = new TimeRepositoryUpdater(timeRepository, apiClient);
-        timeRepositoryUpdater.start();
-        TimeController timeController = new TimeController(timeRepository);
-        timeController.start();
+
+    private static ApiClient apiClient;
+
+    public static void main(String[] args) throws SQLException {
+        ApplicationContext appContext = new AnnotationConfigApplicationContext(CommonConfiguration.class);
+        appContext.getBean(TimeController.class).start();
+
+        JDBC jdbc = new JDBC();
+        jdbc.ReadTimeDto();
+
     }
 
-    public static boolean p() {
-        List<OffsetTime> range = Stream.of("19:00-05:00/21:00-05:00")
-                .map(timeRange -> timeRange.split("/"))
-                .flatMap(Arrays::stream)
-                .map(OffsetTime::parse)
-                .toList();
-        OffsetTime nowTime = OffsetTime.now();
-        return nowTime.isBefore(range.getFirst()) || nowTime.isAfter(range.getLast());
-    }
 }
