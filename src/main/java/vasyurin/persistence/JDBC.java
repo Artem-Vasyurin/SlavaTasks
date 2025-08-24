@@ -1,21 +1,42 @@
 package vasyurin.persistence;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import vasyurin.dto.TimeDto;
+import vasyurin.tasks.TimeRepositoryUpdater;
 
+import java.io.IOException;
 import java.sql.*;
 
-public class JDBC {
-    String url = "jdbc:postgresql://localhost:5432/TimeDataBase";
-    String name = "postgres";
-    String password = "postgres";
+@Component
+public class JDBC  {
 
-    public void WriteTimeDto(TimeDto timeDto) {
+    private final CustomDataSource dataSource;
+
+    public JDBC(@Value("${dbsource.url}") String url,
+                @Value("${dbsource.username}") String username,
+                @Value("${dbsource.password}") String password,
+                @Value("${dbsource.driver-class-name}") String driver,
+                @Value("${dbsource.pool.size}") int poolsize
+
+    ) throws SQLException, ClassNotFoundException {
+
+        Class.forName(driver);
+        this.dataSource = new CustomDataSource(url,username,password,poolsize);
+    }
+
+    public Connection getConnection() throws SQLException, InterruptedException {
+        return dataSource.getConnection();
+    }
+
+    public void save(TimeDto timeDto) throws IOException {
 
         String sql = "INSERT INTO timedto(id,currentdatetime, utcoffset, isdaylightsavingstime, dayoftheweek, timezonename, currentfiletime, ordinaldate, serviceresponse)" +
                 "VALUES (?,?,?,?,?,?,?,?,?)";
-        try {
-            Connection con = DriverManager.getConnection(url, name, password);
-            PreparedStatement ps = con.prepareStatement(sql);
+        try (   Connection connection = getConnection();
+                PreparedStatement ps = connection.prepareStatement(sql)){
+
+
             ps.setInt(1, Integer.parseInt(timeDto.$id()));
             ps.setString(2, timeDto.currentDateTime());
             ps.setString(3, timeDto.utcOffset());
@@ -27,21 +48,21 @@ public class JDBC {
             ps.setString(9, timeDto.serviceResponse());
 
             ps.executeUpdate();
+
             System.out.println("Data Inserted");
-
-
 
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
-    public void ReadTimeDto() throws SQLException {
+    public void ReadTimeDto() throws SQLException, InterruptedException {
         String sql = "select * from timedto where id =1";
-
-        Connection con = DriverManager.getConnection(url, name, password);
-        Statement stmt = con.createStatement();
+        Statement stmt = getConnection().createStatement();
         ResultSet rs = stmt.executeQuery(sql);
         rs.next();
         System.out.println(rs.getArray( 2));
