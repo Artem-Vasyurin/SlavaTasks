@@ -2,6 +2,8 @@ package vasyurin.persistence;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import vasyurin.dto.TimeDto;
 import vasyurin.tasks.TimeRepositoryUpdater;
 
@@ -29,13 +31,13 @@ public class JDBC  {
         return dataSource.getConnection();
     }
 
+@Transactional(isolation = Isolation.SERIALIZABLE)
     public void save(TimeDto timeDto) throws IOException {
 
         String sql = "INSERT INTO timedto(id,currentdatetime, utcoffset, isdaylightsavingstime, dayoftheweek, timezonename, currentfiletime, ordinaldate, serviceresponse)" +
                 "VALUES (?,?,?,?,?,?,?,?,?)";
         try (   Connection connection = getConnection();
                 PreparedStatement ps = connection.prepareStatement(sql)){
-
 
             ps.setInt(1, Integer.parseInt(timeDto.$id()));
             ps.setString(2, timeDto.currentDateTime());
