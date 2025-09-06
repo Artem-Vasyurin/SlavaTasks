@@ -62,6 +62,8 @@ public class JDBC  {
 
     }
 
+
+@Transactional(readOnly = true)
     public void ReadTimeDto() throws SQLException, InterruptedException {
         String sql = "select * from timedto where id =1";
         Statement stmt = getConnection().createStatement();
