@@ -1,5 +1,6 @@
 package vasyurin.telegram_bot.parsing;
 
+import org.springframework.stereotype.Component;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+@Component
 public class RSSHandler extends DefaultHandler {
 
     private Boolean isItem = false;

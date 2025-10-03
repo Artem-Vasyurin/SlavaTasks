@@ -6,6 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+import vasyurin.telegram_bot.parsing.RSSHandler;
+
+import java.io.IOException;
 
 @Configuration
 @ComponentScan("vasyurin")
@@ -13,7 +19,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @PropertySource("classpath:application.properties")
 public class CommonConfiguration {
     @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+    @Bean
+    static XMLReader xmlReader(RSSHandler handler) throws SAXException {
+
+        XMLReader reader = XMLReaderFactory.createXMLReader();
+        reader.setContentHandler(handler);
+        return reader;
     }
 }
