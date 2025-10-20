@@ -9,9 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
-import vasyurin.telegram_bot.parsing.RSSHandler;
-
-import java.io.IOException;
+import vasyurin.telegram_bot.MeduzaDataHandler2;
 
 @Configuration
 @ComponentScan("vasyurin")
@@ -23,7 +21,7 @@ public class CommonConfiguration {
         return new PropertySourcesPlaceholderConfigurer();
     }
     @Bean
-    static XMLReader xmlReader(RSSHandler handler) throws SAXException {
+    static XMLReader xmlReader(MeduzaDataHandler2 handler) throws SAXException {
 
         XMLReader reader = XMLReaderFactory.createXMLReader();
         reader.setContentHandler(handler);
