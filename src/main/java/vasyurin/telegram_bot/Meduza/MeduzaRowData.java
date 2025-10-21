@@ -1,29 +1,43 @@
 package vasyurin.telegram_bot.Meduza;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import lombok.Data;
 import vasyurin.telegram_bot.interfaces.NewsRowData;
 
+import java.util.List;
+
+@Data
 public class MeduzaRowData implements NewsRowData {
-    private final String title;
-    private final String description;
-    private final String text;
+    private String title;
+    private String link;
+    private String description;
+    private String guid;
+    private String pubDate;
 
+    @JacksonXmlProperty(localName = "content:encoded")
+    private String content;
 
-    public MeduzaRowData(String title, String description, String text) {
-        this.title = title;
-        this.description = description;
-        this.text = text;
-    }
+}
 
-    public String getTitle() {
-        return title;
-    }
+@Data
+class Channel {
+    private String title;
+    private String link;
+    private String language;
+    private String description;
 
-    public String getDescription() {
-        return description;
-    }
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "item")
+    private List<MeduzaRowData> items;
+}
 
-    public String getText() {
-        return text;
-    }
+@Data
+@JacksonXmlRootElement(localName = "rss")
+class RssFeed{
+
+    @JacksonXmlProperty(localName = "channel")
+    private Channel channel;
 }
 

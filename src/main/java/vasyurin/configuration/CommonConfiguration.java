@@ -20,11 +20,5 @@ public class CommonConfiguration {
     public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
-    @Bean
-    static XMLReader xmlReader(MeduzaDataHandler2 handler) throws SAXException {
-
-        XMLReader reader = XMLReaderFactory.createXMLReader();
-        reader.setContentHandler(handler);
-        return reader;
-    }
+   
 }
