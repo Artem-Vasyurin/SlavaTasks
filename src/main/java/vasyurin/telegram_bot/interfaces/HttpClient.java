@@ -4,4 +4,5 @@ import org.jsoup.nodes.Document;
 
 public interface HttpClient {
     Document request();
+    String getRowDate();
 }

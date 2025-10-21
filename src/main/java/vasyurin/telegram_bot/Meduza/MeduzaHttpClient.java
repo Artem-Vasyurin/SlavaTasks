@@ -3,22 +3,45 @@ package vasyurin.telegram_bot.Meduza;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Component;
-import vasyurin.telegram_bot.interfaces.HttpClient;
+import java.net.http.HttpClient;
+
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 
 @Component
-public class MeduzaHttpClient implements HttpClient{
-    private static final URI uri = URI.create("https://hxhrkwtayhhvzavy.30dvtsgew7hf.xyz/rss/all");
+public class MeduzaHttpClient implements vasyurin.telegram_bot.interfaces.HttpClient {
+    private final String url = "https://hxhrkwtayhhvzavy.30dvtsgew7hf.xyz/rss/all";
+
 
     public Document request() {
         try {
-            return Jsoup.connect(uri.toString()).get();
+            return Jsoup.connect(url.toString()).get();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public String getRowDate(){
+        HttpClient httpClient = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return response.body();
+    }
+
 
 //    @Override
 //    public NewsRowData request() {
